@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.employee.management.common.exception.ResourceNotFoundException;
 import com.employee.management.department.dto.CreateDepartmentRequest;
 import com.employee.management.department.dto.DepartmentResponse;
 import com.employee.management.department.entity.Department;
@@ -58,7 +59,7 @@ public class DepartmentService {
 
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Department not found"));
+                        new ResourceNotFoundException("Department not found"));
 
         return new DepartmentResponse(
                 department.getId(),
