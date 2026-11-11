@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.employee.management.common.exception.ConflictException;
 import com.employee.management.common.exception.ResourceNotFoundException;
 import com.employee.management.department.dto.CreateDepartmentRequest;
 import com.employee.management.department.dto.DepartmentResponse;
@@ -24,7 +25,7 @@ public class DepartmentService {
     public DepartmentResponse createDepartment(CreateDepartmentRequest request) {
 
         if (departmentRepository.existsByName(request.name())) {
-            throw new IllegalArgumentException("Department name already exists");
+            throw new ConflictException("Department name already exists");
         }
 
         Department department = new Department(
