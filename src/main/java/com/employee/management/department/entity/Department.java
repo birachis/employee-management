@@ -3,6 +3,8 @@ package com.employee.management.department.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.Generated;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Department {
     @Column(length = 255)
     private String description;
 
+    @Generated
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
