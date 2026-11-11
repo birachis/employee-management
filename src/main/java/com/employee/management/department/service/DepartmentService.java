@@ -1,6 +1,7 @@
 package com.employee.management.department.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -42,14 +43,28 @@ public class DepartmentService {
 
     public List<DepartmentResponse> getAllDepartments() {
 
-    return departmentRepository.findAll()
-            .stream()
-            .map(department -> new DepartmentResponse(
-                    department.getId(),
-                    department.getName(),
-                    department.getDescription(),
-                    department.getCreatedAt()
-            ))
-            .collect(Collectors.toList());
-}
+        return departmentRepository.findAll()
+                .stream()
+                .map(department -> new DepartmentResponse(
+                        department.getId(),
+                        department.getName(),
+                        department.getDescription(),
+                        department.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public DepartmentResponse getDepartmentById(UUID id) {
+
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Department not found"));
+
+        return new DepartmentResponse(
+                department.getId(),
+                department.getName(),
+                department.getDescription(),
+                department.getCreatedAt()
+        );
+    }
 }

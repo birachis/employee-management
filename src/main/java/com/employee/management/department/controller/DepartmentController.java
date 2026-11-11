@@ -2,10 +2,12 @@
 package com.employee.management.department.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +48,15 @@ public class DepartmentController {
                 departmentService.getAllDepartments();
 
         return ResponseEntity.ok(departments);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DepartmentResponse> getDepartmentById(
+            @PathVariable UUID id) {
+
+        DepartmentResponse department =
+                departmentService.getDepartmentById(id);
+
+        return ResponseEntity.ok(department);
     }
 }
