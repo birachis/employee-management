@@ -9,4 +9,6 @@ import com.employee.management.department.entity.Department;
 public interface DepartmentRepository
         extends JpaRepository<Department, UUID> {
 
+    public boolean existsByName(String name);
+
 }

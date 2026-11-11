@@ -31,6 +31,11 @@ public class Department {
     protected Department() {
     }
 
+    public Department(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     // Getters and setters
 
     public UUID getId() {
