@@ -1,5 +1,8 @@
 package com.employee.management.department.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.employee.management.department.dto.CreateDepartmentRequest;
@@ -36,4 +39,17 @@ public class DepartmentService {
                 savedDepartment.getCreatedAt()
         );
     }
+
+    public List<DepartmentResponse> getAllDepartments() {
+
+    return departmentRepository.findAll()
+            .stream()
+            .map(department -> new DepartmentResponse(
+                    department.getId(),
+                    department.getName(),
+                    department.getDescription(),
+                    department.getCreatedAt()
+            ))
+            .collect(Collectors.toList());
+}
 }
