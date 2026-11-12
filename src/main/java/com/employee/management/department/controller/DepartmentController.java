@@ -1,4 +1,3 @@
-
 package com.employee.management.department.controller;
 
 import java.util.List;
@@ -6,25 +5,16 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.employee.management.department.api.DepartmentApi;
 import com.employee.management.department.dto.CreateDepartmentRequest;
 import com.employee.management.department.dto.DepartmentResponse;
 import com.employee.management.department.dto.UpdateDepartmentRequest;
 import com.employee.management.department.service.DepartmentService;
 
-import jakarta.validation.Valid;
-
 @RestController
-@RequestMapping("/api/departments")
-public class DepartmentController {
+public class DepartmentController implements DepartmentApi {
 
     private final DepartmentService departmentService;
 
@@ -32,9 +22,9 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @PostMapping
+    @Override
     public ResponseEntity<DepartmentResponse> createDepartment(
-            @Valid @RequestBody CreateDepartmentRequest request) {
+            CreateDepartmentRequest request) {
 
         DepartmentResponse response =
                 departmentService.createDepartment(request);
@@ -44,7 +34,7 @@ public class DepartmentController {
                 .body(response);
     }
 
-    @GetMapping
+    @Override
     public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
 
         List<DepartmentResponse> departments =
@@ -53,9 +43,8 @@ public class DepartmentController {
         return ResponseEntity.ok(departments);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DepartmentResponse> getDepartmentById(
-            @PathVariable UUID id) {
+    @Override
+    public ResponseEntity<DepartmentResponse> getDepartmentById(UUID id) {
 
         DepartmentResponse department =
                 departmentService.getDepartmentById(id);
@@ -63,10 +52,10 @@ public class DepartmentController {
         return ResponseEntity.ok(department);
     }
 
-    @PutMapping("/{id}")
+    @Override
     public ResponseEntity<DepartmentResponse> updateDepartment(
-            @PathVariable UUID id,
-            @Valid @RequestBody UpdateDepartmentRequest request) {
+            UUID id,
+            UpdateDepartmentRequest request) {
 
         DepartmentResponse response =
                 departmentService.updateDepartment(id, request);
@@ -74,8 +63,8 @@ public class DepartmentController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDepartment(@PathVariable UUID id) {
+    @Override
+    public ResponseEntity<Void> deleteDepartment(UUID id) {
 
         departmentService.deleteDepartment(id);
 
