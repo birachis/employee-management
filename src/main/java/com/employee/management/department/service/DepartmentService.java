@@ -10,6 +10,7 @@ import com.employee.management.common.exception.ConflictException;
 import com.employee.management.common.exception.ResourceNotFoundException;
 import com.employee.management.department.dto.CreateDepartmentRequest;
 import com.employee.management.department.dto.DepartmentResponse;
+import com.employee.management.department.dto.UpdateDepartmentRequest;
 import com.employee.management.department.entity.Department;
 import com.employee.management.department.repository.DepartmentRepository;
 
@@ -67,6 +68,33 @@ public class DepartmentService {
                 department.getName(),
                 department.getDescription(),
                 department.getCreatedAt()
+        );
+    }
+
+    public DepartmentResponse updateDepartment(
+            UUID id,
+            UpdateDepartmentRequest request) {
+
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Department not found"));
+
+        if (!department.getName().equals(request.name())
+                && departmentRepository.existsByName(request.name())) {
+
+            throw new ConflictException("Department name already exists");
+        }
+
+        department.setName(request.name());
+        department.setDescription(request.description());
+
+        Department updatedDepartment = departmentRepository.save(department);
+
+        return new DepartmentResponse(
+                updatedDepartment.getId(),
+                updatedDepartment.getName(),
+                updatedDepartment.getDescription(),
+                updatedDepartment.getCreatedAt()
         );
     }
 }
