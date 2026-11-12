@@ -97,4 +97,13 @@ public class DepartmentService {
                 updatedDepartment.getCreatedAt()
         );
     }
+
+    public void deleteDepartment(UUID id) {
+
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Department not found"));
+
+        departmentRepository.delete(department);
+    }
 }
